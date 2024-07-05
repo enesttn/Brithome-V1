@@ -1,60 +1,28 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAccess.EntityFramework;
+using DataAccess.Abstract;
 using Entities;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-
+using Entities.DTOs;
 
 namespace DataAccess.Concrete.EntityFramework;
 
-public class EfPropertyDal : IPropertyDal
+public class EfPropertyDal : EfEntityRepositoryBase<Property, BrithomeContext>, IPropertyDal
 {
-    public void Add(Property entity)
+    public List<PropertyDetailDto> GetPropertyDetails()
     {
         using (BrithomeContext context = new())
         {
-            var addedEntity = context.Entry(entity);
-            addedEntity.State = EntityState.Added;
-            context.SaveChanges();
+            var result = from p in context.Properties
+                         join c in context.Categories
+                         on p.CategoryID equals c.CategoryID
+                         select new PropertyDetailDto
+                         {
+                             PropertyID = p.PropertyID,
+                             Title = p.Title,
+                             CategoryName = c.CategoryName,
+                             City = p.City,
+                             Status = p.Status
+                         };
+                         return result.ToList();
         }
-    }
-
-    public void Delete(Property entity)
-    {
-        using (BrithomeContext context = new())
-        {
-            var deletedEntity = context.Entry(entity);
-            deletedEntity.State = EntityState.Deleted;
-            context.SaveChanges();
-        }
-    }
-
-    public Property Get(Expression<Func<Property, bool>> filter)
-    {
-        using (BrithomeContext context = new())
-        {
-            return context.Set<Property>().SingleOrDefault(filter);
-
-        }
-    }
-
-    public List<Property> GetAll(Expression<Func<Property, bool>> filter = null)
-    {
-        using (BrithomeContext context = new()) { 
-        return filter == null 
-            ? context.Set<Property>().ToList()
-            : context.Set<Property>().Where(filter).ToList();
-        }
-    }
-
-    public void Update(Property entity)
-    {
-        using (BrithomeContext context = new())
-        {
-
-            var updatedEntity = context.Entry(entity);
-            updatedEntity.State = EntityState.Modified;
-            context.SaveChanges();
-        }
-
     }
 }

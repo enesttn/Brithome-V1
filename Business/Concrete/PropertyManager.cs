@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using DataAccess.Abstract;
 using Entities;
+using Entities.DTOs;
 
 namespace Business.Concrete;
 
@@ -16,5 +17,10 @@ public class PropertyManager:IPropertyService
     public List<Property> GetAll()
     {
         return _propertyDal.GetAll();
+    }
+
+    public List<PropertyDetailDto> GetPropertyDetails()
+    {
+        return _propertyDal.GetPropertyDetails();
     }
 }
