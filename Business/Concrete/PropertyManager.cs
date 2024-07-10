@@ -1,11 +1,13 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities;
 using Entities.DTOs;
 
 namespace Business.Concrete;
 
-public class PropertyManager:IPropertyService
+public class PropertyManager : IPropertyService
 {
     IPropertyDal _propertyDal;
 
@@ -14,13 +16,46 @@ public class PropertyManager:IPropertyService
         _propertyDal = propertyDal;
     }
 
-    public List<Property> GetAll()
+    public IResult Add(Property property)
     {
-        return _propertyDal.GetAll();
+        if (property.Title.Length < 2)
+        {
+            return new ErrorResult(Messages.PropertyTitleInvalid);
+        }
+        _propertyDal.Add(property);
+        return new SuccessResult(Messages.PropertyAdded);
     }
 
-    public List<PropertyDetailDto> GetPropertyDetails()
+    public IDataResult<List<Property>> GetAll()
     {
-        return _propertyDal.GetPropertyDetails();
+        if (DateTime.Now.Hour == 22)
+        {
+
+            return new ErrorDataResult<List<Property>>(Messages.MaintenanceTime);
+        }
+
+
+        return new SuccessDataResult<List<Property>>(_propertyDal.GetAll(), Messages.PropertiesListed);
+    }
+
+    public IDataResult<List<Property>> GetAllByCategoryId(int id)
+    {
+        return new SuccessDataResult<List<Property>>(_propertyDal.GetAll(p => p.CategoryID == id));
+    }
+
+    public IDataResult<Property> GetById(int propertyId)
+    {
+        return new SuccessDataResult<Property>(_propertyDal.Get(p => p.PropertyID == propertyId));
+    }
+
+    public IDataResult<List<Property>> GetByPrice(decimal max, decimal min)
+    {
+
+        return new SuccessDataResult<List<Property>>(_propertyDal.GetAll(p => p.Price >= min && p.Price <= max));
+    }
+
+    public IDataResult<List<PropertyDetailDto>> GetPropertyDetails()
+    {
+        return new SuccessDataResult<List<PropertyDetailDto>>(_propertyDal.GetPropertyDetails());
     }
 }

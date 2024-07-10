@@ -13,9 +13,14 @@ static void PropertyTest()
 {
     PropertyManager propertyManager = new(new EfPropertyDal());
 
-    foreach (var property in propertyManager.GetPropertyDetails())
+    var result = propertyManager.GetPropertyDetails();
+    if (result.Success == true)
     {
-        Console.WriteLine(property.Title + "--" + property.CategoryName);
+
+        foreach (var property in result.Data)
+        {
+            Console.WriteLine(property.Title + "--" + property.CategoryName);
+        }
     }
 }
 
