@@ -22,6 +22,10 @@ static void PropertyTest()
             Console.WriteLine(property.Title + "--" + property.CategoryName);
         }
     }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
 }
 
 static void CategoryTest()

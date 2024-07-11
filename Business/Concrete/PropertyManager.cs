@@ -56,6 +56,11 @@ public class PropertyManager : IPropertyService
 
     public IDataResult<List<PropertyDetailDto>> GetPropertyDetails()
     {
+        //if (DateTime.Now.Hour == 00)
+        //{
+
+        //    return new ErrorDataResult<List<PropertyDetailDto>>(Messages.MaintenanceTime);
+        //}
         return new SuccessDataResult<List<PropertyDetailDto>>(_propertyDal.GetPropertyDetails());
     }
 }
