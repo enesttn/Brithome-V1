@@ -14,3 +14,4 @@ public class AutofacBusinessModule:Module
         builder.RegisterType<EfPropertyDal>().As<IPropertyDal>().SingleInstance();
     }
 }
+  
