@@ -1,9 +1,13 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities;
 using Entities.DTOs;
+using FluentValidation;
 
 namespace Business.Concrete;
 
@@ -16,13 +20,12 @@ public class PropertyManager : IPropertyService
         _propertyDal = propertyDal;
     }
 
+    [ValidationAspect(typeof(PropertyValidator))]
     public IResult Add(Property property)
     {
-        if (property.Title.Length < 2)
-        {
-            return new ErrorResult(Messages.PropertyTitleInvalid);
-        }
+
         _propertyDal.Add(property);
+        
         return new SuccessResult(Messages.PropertyAdded);
     }
 
