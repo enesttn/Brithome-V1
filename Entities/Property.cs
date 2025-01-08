@@ -16,8 +16,9 @@ public class Property : IEntity
     public int NumBathrooms { get; set; }
     public int NumBedrooms { get; set; }
     public decimal? Area { get; set; }
-    public int? CategoryID { get; set; }
-    public string Status { get; set; }
+    public int CategoryID { get; set; }
+    public int ListingStatusID { get; set; }
+    public ListingStatus ListingStatus { get; set; }
 
 
 }

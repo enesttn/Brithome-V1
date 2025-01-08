@@ -14,15 +14,18 @@ public class EfPropertyDal : EfEntityRepositoryBase<Property, BrithomeContext>, 
             var result = from p in context.Properties
                          join c in context.Categories
                          on p.CategoryID equals c.CategoryID
+                         join s in context.ListingStatuses // ListingStatus ile join
+                         on p.ListingStatusID equals s.ListingStatusID
                          select new PropertyDetailDto
                          {
                              PropertyID = p.PropertyID,
                              Title = p.Title,
                              CategoryName = c.CategoryName,
                              City = p.City,
-                             Status = p.Status
+                             Status = s.StatusName // StatusName string olarak atanıyor
                          };
-                         return result.ToList();
+            return result.ToList();
         }
     }
 }
+
