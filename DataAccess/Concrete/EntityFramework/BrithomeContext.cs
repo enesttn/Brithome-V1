@@ -15,7 +15,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Category> Categories { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Listing> Listings { get; set; }
-       // public DbSet<ContactForm> ContactForms { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<ListingStatus> ListingStatuses { get; set; }
 
