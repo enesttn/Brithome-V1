@@ -1,9 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 
-
-
-
 namespace DataAccess.Concrete.EntityFramework
 {
     public class BrithomeContext : DbContext

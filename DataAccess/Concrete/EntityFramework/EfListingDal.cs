@@ -3,9 +3,8 @@ using DataAccess.Abstract;
 using Entities;
 
 
-namespace DataAccess.Concrete.EntityFramework
+namespace DataAccess.Concrete.EntityFramework;
+
+public class EfListingDal:EfEntityRepositoryBase<Listing,BrithomeContext>,IListingDal
 {
-    public class EfListingDal:EfEntityRepositoryBase<Listing,BrithomeContext>,IListingDal
-    {
-    }
 }
